@@ -1,0 +1,22 @@
+package main
+
+import "fmt"
+import "unsafe"
+
+var brokenUnaligned bool
+
+func main() {
+	// Simple check to see whether this arch handles unaligned load/stores
+	// correctly.
+
+	// ARM9 and older devices require load/stores to be from/to aligned
+	// addresses. If not, the lower 2 bits are cleared and that address is
+	// read in a jumbled up order.
+
+	raw := [6]byte{0xfe, 0xef, 0x11, 0x22, 0x22, 0x11}
+	val := *(*uint32)(unsafe.Pointer(uintptr(unsafe.Pointer(&raw)) + 2))
+
+	brokenUnaligned = val != 0x11222211
+
+	fmt.Println(brokenUnaligned)
+}
