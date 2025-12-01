@@ -1,0 +1,6 @@
+.idea
+.vscode
+.claude
+.DS_Store
+.env
+sw-go-porter.tar
